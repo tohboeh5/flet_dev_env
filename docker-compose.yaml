@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  flet:
+    volumes:
+      - ./:/app
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+    - "8080:8080"
+    command: flet run ./main.py -d -p 8080 --web 
+    # command: python main.py
