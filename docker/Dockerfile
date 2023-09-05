@@ -1,7 +1,20 @@
-FROM condaforge/mambaforge
-COPY ./conda.yaml /app/conda.yaml
+# FROM ubuntu:latest
+FROM python:3.11
+# RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+
 WORKDIR /app
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
-RUN mamba env update -n base -f conda.yaml
-COPY ./ /app
-# CMD [ "flet","run","main.py","-d","-p","8080" ] 
+ENV RYE_HOME="/opt/rye"
+ENV PATH="$RYE_HOME/shims:$PATH"
+ENV PATH=".venv/bin:$PATH"
+ENV PATH="$HOME/.rye/env:$PATH"
+
+RUN apt-get update && apt-get install -y curl && curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+
+RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=requirements.lock,target=requirements.lock \
+    --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
+    --mount=type=bind,source=.python-version,target=.python-version \
+    --mount=type=bind,source=README.md,target=README.md \
+    rye sync --no-dev --no-lock
+
+ADD ./* /app

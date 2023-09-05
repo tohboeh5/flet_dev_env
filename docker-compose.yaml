@@ -4,11 +4,14 @@ services:
   flet:
     volumes:
       - ./:/app
+      - /app/.venv/
+    # command:
+    #   - rye sync
     working_dir: /app
     build:
       context: .
       dockerfile: ./docker/Dockerfile
     ports:
     - "8080:8080"
-    command: flet run ./main.py -d -p 8080 --web 
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8080 --reload
     # command: python main.py

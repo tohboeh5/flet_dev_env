@@ -1,0 +1,28 @@
+[project]
+name = "flet-dev-env"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "tohboeh5simsim7@gmail.com", email = "you@example.com" }
+]
+dependencies = [
+    "flet>=0.10.1",
+    "flet-fastapi>=0.10.1",
+    "uvicorn>=0.23.2",
+]
+readme = "README.md"
+requires-python = ">= 3.11"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "black>=23.7.0",
+    "flake8>=6.1.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
