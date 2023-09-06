@@ -11,9 +11,7 @@ class Task(ft.UserControl):
         self.task_delete = task_delete
 
     def build(self):
-        self.display_task = ft.Checkbox(
-            value=False, label=self.task_name, on_change=self.status_changed
-        )
+        self.display_task = ft.Checkbox(value=False, label=self.task_name, on_change=self.status_changed)
         self.edit_name = ft.TextField(expand=1)
 
         self.display_view = ft.Row(
@@ -77,9 +75,7 @@ class Task(ft.UserControl):
 
 class TodoApp(ft.UserControl):
     def build(self):
-        self.new_task = ft.TextField(
-            hint_text="What needs to be done?", on_submit=self.add_clicked, expand=True
-        )
+        self.new_task = ft.TextField(hint_text="What needs to be done?", on_submit=self.add_clicked, expand=True)
         self.tasks = ft.Column()
 
         self.filter = ft.Tabs(
@@ -94,15 +90,11 @@ class TodoApp(ft.UserControl):
         return ft.Column(
             width=600,
             controls=[
-                ft.Row(
-                    [ft.Text(value="Todos", style="headlineMedium")], alignment="center"
-                ),
+                ft.Row([ft.Text(value="Todos", style="headlineMedium")], alignment="center"),
                 ft.Row(
                     controls=[
                         self.new_task,
-                        ft.FloatingActionButton(
-                            icon=ft.icons.ADD, on_click=self.add_clicked
-                        ),
+                        ft.FloatingActionButton(icon=ft.icons.ADD, on_click=self.add_clicked),
                     ],
                 ),
                 ft.Column(
@@ -115,9 +107,7 @@ class TodoApp(ft.UserControl):
                             vertical_alignment="center",
                             controls=[
                                 self.items_left,
-                                ft.OutlinedButton(
-                                    text="Clear completed", on_click=self.clear_clicked
-                                ),
+                                ft.OutlinedButton(text="Clear completed", on_click=self.clear_clicked),
                             ],
                         ),
                     ],
@@ -152,11 +142,7 @@ class TodoApp(ft.UserControl):
         status = self.filter.tabs[self.filter.selected_index].text
         count = 0
         for task in self.tasks.controls:
-            task.visible = (
-                status == "all"
-                or (status == "active" and task.completed == False)
-                or (status == "completed" and task.completed)
-            )
+            task.visible = status == "all" or (status == "active" and not task.completed) or (status == "completed" and task.completed)
             if not task.completed:
                 count += 1
         self.items_left.value = f"{count} active item(s) left"

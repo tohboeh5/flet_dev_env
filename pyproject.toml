@@ -22,7 +22,14 @@ managed = true
 dev-dependencies = [
     "black>=23.7.0",
     "flake8>=6.1.0",
+    "pep8-naming>=0.13.3",
 ]
+
+[tool.black]
+line-length = 200
+
+[flake8]
+max-line-length = 200
 
 [tool.hatch.metadata]
 allow-direct-references = true

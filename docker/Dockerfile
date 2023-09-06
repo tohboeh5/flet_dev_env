@@ -8,7 +8,7 @@ ENV PATH="$RYE_HOME/shims:$PATH"
 ENV PATH=".venv/bin:$PATH"
 ENV PATH="$HOME/.rye/env:$PATH"
 
-RUN apt-get update && apt-get install -y curl && curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+RUN curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
 
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=requirements.lock,target=requirements.lock \
